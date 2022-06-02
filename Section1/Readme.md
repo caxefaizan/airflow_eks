@@ -3,15 +3,15 @@
 ## Cloning the Repository
 >This might be a good time for you to create a Github Account if you dont have one. I highly recommend to create it for the course and it will be super useful throughout your course as well.
 
-Go to `https://github.com/caxefaizan/udemy` and on the top right corner click on the **`Fork`** button to clone the project in your github account.
+Visit the course repo [here](https://github.com/caxefaizan/udemy) and on the top right corner click on the **`Fork`** button to clone the project in your github account.
 
 ## IDE
 We will be using VS Code for the development . However you can use any IDE of your choice.
-Based on your OS download the appropriate version from `https://code.visualstudio.com/download`
+Based on your OS download the appropriate version from [here](https://code.visualstudio.com/download).
 
 >**Note:** 
 >
->* If you are on Windows, I'd recommend installing WSL2 for Windows to follow along in the course. Follow the link `https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview` to get started.
+>* If you are on Windows, I'd recommend installing WSL2 for Windows to follow along in the course. Follow the [link](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview) to get started.
 >
 >* After Ubuntu is installed on your WSL2, Open VS Code and open Extensions `(Ctrl+Shift+X)` and search for Remote - WSL and install it.
 >

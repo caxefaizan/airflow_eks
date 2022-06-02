@@ -1,0 +1,3 @@
+cluster:
+  namespace: airflow-v2
+env:
