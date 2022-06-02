@@ -19,7 +19,7 @@ And thats it we have Airflow Installed and you can access the UI by running
 ```
 kubectl port-forward svc/airflow-webserver 8080:8080 --namespace default
 ```
-and opening up `localhost:8080` on your web browser.
+and opening up `localhost:8080` on your web browser and using `admin` as your default username and password.
 
 >This is where all the meat lies. But from now onwards we will build a production grade Airflow deployment that follows the best practices as described [here](https://airflow.apache.org/docs/helm-chart/stable/production-guide.html).
 
@@ -31,3 +31,27 @@ To make use of a single script that manages Airflow across all environments, we 
 
 To create the Helper Chart we need to follow the directory structure as described [here](https://helm.sh/docs/chart_template_guide/getting_started/).
 
+Follow the commands as below
+```
+# Copy the directory structure
+cp Section2/helperChart/ ./ -r
+```
+## Create Airflow Secrets
+```
+# SetUp Git Access Keys
+ssh-keygen -t rsa -b 2048
+cp ~/.ssh/id_rsa ./helperChart/secrets/id_rsa
+
+# Add the following Public Key to your Github Account under Settings > SSH and GPG Keys > New SSH Key
+cat ~/.ssh/id_rsa.pub 
+
+# Setup Fernet Key
+python3 -c 'from cryptography.fernet import Fernet; fernet_key = Fernet.generate_key(); print(fernet_key.decode())' > ./helperChart/secrets/fernet_key
+
+# Setup Webserver Key
+python3 -c 'import secrets; print(secrets.token_hex(16))' > ./helperChart/secrets/webserver_key
+
+# Setup Known Hosts
+ssh-keyscan -t rsa github.com > ./helperChart/secrets/known_hosts
+```
+>Note: Make sure you store these keys safely for future use
