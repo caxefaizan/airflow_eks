@@ -56,4 +56,5 @@ python3 -m venv venv
 source venv/bin/activate
 # Install Packages
 python3 -m pip install awscli
+python3 -m pip install j2cli
 ```
