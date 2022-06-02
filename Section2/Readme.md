@@ -55,3 +55,13 @@ python3 -c 'import secrets; print(secrets.token_hex(16))' > ./helperChart/secret
 ssh-keyscan -t rsa github.com > ./helperChart/secrets/known_hosts
 ```
 >Note: Make sure you store these keys safely for future use
+
+Now lets create the scipt to make use of our Helper Chart
+```
+cp Section2/scripts ./ -r
+chmod 777 ./scripts/deploy.sh 
+./scripts/deploy.sh
+```
+> Verify the resources created by `kubectl get secrets -n airflow`
+
+Now we are all set for configuring our Airflow Build.
