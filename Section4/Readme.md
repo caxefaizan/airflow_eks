@@ -39,6 +39,17 @@ Some Parameters to be Stored
 >VAL=$(cat helperChart/secrets/known_hosts)
 >
 >aws ssm put-parameter --name "/global/airflow/github/known-hosts" --value "$VAL" --type "SecureString"
+```
+aws ssm put-parameter --name "/global/airflow/webserver/flask-secret-key" --value "VALUE" --type "SecureString"
+aws ssm put-parameter --name "/global/airflow/fernet-key" --value "VALUE" --type "SecureString"
+KH=$(cat helperChart/secrets/known_hosts)
+aws ssm put-parameter --name "/global/airflow/github/known-hosts" --value "$KH" --type "SecureString"
+PK=$(cat ~/.ssh/id_rsa)
+aws ssm put-parameter --name "/global/airflow/github/private-key" --value "$PK" --type "SecureString"
+aws ssm put-parameter --name "/global/airflow/github/dags-repo" --value "VALUE" --type "SecureString"
+aws ssm put-parameter --name "/dev/airflow/rds/identifier" --value "VALUE" --type "SecureString"
+aws ssm put-parameter --name "/dev/airflow/rds/password" --value "VALUE" --type "SecureString"
+```
 ## Modify the values.yaml file to Remove Postgres, Use RDS Connection Secrets
 ```
 cp Section4/scripts ./ -r -f
