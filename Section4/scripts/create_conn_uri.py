@@ -126,5 +126,5 @@ c = Connection(
     port=PORT,
     extra=EXTRA
 )
-with open(f'./helm/secrets/{CONN_ID}','w') as fp:
+with open(f'./helperChart/secrets/{CONN_ID}','w') as fp:
     fp.write(c.get_uri())
