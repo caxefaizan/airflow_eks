@@ -4,20 +4,28 @@ export ENV=sandpit ACCOUNT_ID=526742771915
 source ./scripts/eks-login.sh
 source ./scripts/config.sh
 
+echo "Fetching Parameters"
 # Multi-Git-Sync Pod Secrets
 aws ssm get-parameter --name ${GIT_PRIVATEKEY_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/id_rsa
 aws ssm get-parameter --name ${GIT_KNOWNHOSTS_PATH}  --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/known_hosts
+export DAGS_REPO=$(aws ssm get-parameter --name ${DAGS_REPO_PATH} --with-decryption --query Parameter.Value | tr -d \")
 
 # Flask Secrets
 aws ssm get-parameter --name ${FERNET_KEY_PATH}     --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/fernet_key
 aws ssm get-parameter --name ${WEBSERVER_SECRET_KEY_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/webserver_key
 
+echo "Updating Helper Chart Deployment"
 # Create Resources from Templates
 helm upgrade airflow-helper ./helperChart  \
     --install \
     --set env=${ENV} \
     --set cluster.namespace=${NAMESPACE} \
     -f ./helperChart/values.yaml
+
+export KNOWN_HOSTS=$(cat ./helperChart/secrets/known_hosts)
+
+# Remove Secrets
+rm -rf ./helperChart/secrets
 
 helm repo add apache-airflow https://airflow.apache.org
 helm repo update
