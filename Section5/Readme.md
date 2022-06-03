@@ -37,3 +37,65 @@ You can get the Airflow UI link from
 ```
 kubectl get ingress -n airflow
 ```
+Copy the address and open it in a web browser.
+
+## EFS
+Now Create Policy for EFS
+```
+curl -o ./yamls/iam-policy-efs.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.7/docs/iam-policy-example.json
+aws iam create-policy --policy-name AmazonEKS_EFS_CSI_Driver_Policy --policy-document file://yamls/iam-policy-efs.json
+```
+Attach Policy to Cluster
+```
+eksctl create iamserviceaccount --cluster airflow --namespace kube-system --name efs-csi-controller-sa --attach-policy-arn arn:aws:iam::526742771915:policy/AmazonEKS_EFS_CSI_Driver_Policy --approve --region us-east-1
+```
+Deploy EFS Driver
+```
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+helm repo update
+helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver --namespace kube-system --set image.repository=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/aws-efs-csi-driver --set controller.serviceAccount.create=false --set controller.serviceAccount.name=efs-csi-controller-sa
+kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver"
+```
+Mount Volumes on the Nodes
+``` 
+# Get Cluster Config 
+vpc_id=$(aws eks describe-cluster --name airflow --query "cluster.resourcesVpcConfig.vpcId" --output text)
+
+cidr_range=$(aws ec2 describe-vpcs --vpc-ids $vpc_id --query "Vpcs[].CidrBlock" --output text)
+
+security_group_id=$(aws eks describe-cluster --name airflow --query "cluster.resourcesVpcConfig.clusterSecurityGroupId" --output text)
+
+# Authorize and create File System
+aws ec2 authorize-security-group-ingress --group-id $security_group_id --protocol tcp --port 2049 --cidr $cidr_range
+
+file_system_id=$(aws efs create-file-system --region us-east-1 --performance-mode generalPurpose --query 'FileSystemId' --output text)
+
+# Filtering Subnets
+TAG1=tag:alpha.eksctl.io/cluster-name
+VALUE1=airflow
+TAG2=tag:kubernetes.io/role/internal-elb
+VALUE2=1
+subnets=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpc_id" "Name=$TAG1,Values=$VALUE1" "Name=$TAG2,Values=$VALUE2" | jq --raw-output '.Subnets[].SubnetId')
+
+#  Mounting Subnets
+for subnet in ${subnets[@]}; do echo "creating mount target in " $subnet; aws efs create-mount-target --file-system-id $file_system_id --subnet-id $subnet --security-groups $security_group_id; done
+
+aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
+
+curl -o ./yamls/storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
+
+# Change File system id in storageclass.yaml
+curl -o ./yamls/pod.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/pod.yaml
+kubectl apply -f ./yamls/storageclass.yaml 
+kubectl apply -f ./yamls/pod.yaml 
+```
+Use the EFS with RWX for logs(persisting K8s Logs) in values.yaml file by adding
+```
+logs:
+  persistence:
+    enabled: true
+    existingClaim: efs-claim
+```
+>Note: To use the new PVC we will have to uninstall Airflow and reinstall it.
+cp ./yamls/values.yaml.j2 ./yamls/
+./scripts/deploy.sh 

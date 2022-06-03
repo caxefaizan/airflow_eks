@@ -39,7 +39,10 @@ Some Parameters to be Stored
 >VAL=$(cat helperChart/secrets/known_hosts)
 >
 >aws ssm put-parameter --name "/global/airflow/github/known-hosts" --value "$VAL" --type "SecureString"
-## Modify the Scripts or Copy from below
+## Modify the values.yaml file to Remove Postgres, Use RDS Connection Secrets
 ```
 cp Section4/scripts ./ -r -f
+cp Section4/yamls ./ -r -f
+cp Section4/helperChart ./ -r -f
+./scripts/deploy.sh
 ```

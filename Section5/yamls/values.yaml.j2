@@ -1,3 +1,8 @@
+logs:
+  persistence:
+    enabled: true
+    existingClaim: efs-claim
+
 ingress:
   enabled: true
   web:
@@ -8,6 +13,13 @@ ingress:
     path: "/"
     pathType: "Prefix"
     ingressClassName: alb
+
+postgresql:
+  enabled: false
+
+data:
+  metadataSecretName: secret-metadatabase
+  resultBackendSecretName: secret-resultbackend
 
 statsd:
   enabled: false
