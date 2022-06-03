@@ -5,12 +5,12 @@ source ./scripts/eks-login.sh
 source ./scripts/config.sh
 
 # Multi-Git-Sync Pod Secrets
-aws ssm get-parameter --name ${GIT_PRIVATEKEY_PATH} --with-decryption --query Parameter.Value --output text > ./helm/secrets/id_rsa
-aws ssm get-parameter --name ${GIT_KNOWNHOSTS_PATH}  --with-decryption --query Parameter.Value --output text > ./helm/secrets/known_hosts
+aws ssm get-parameter --name ${GIT_PRIVATEKEY_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/id_rsa
+aws ssm get-parameter --name ${GIT_KNOWNHOSTS_PATH}  --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/known_hosts
 
 # Flask Secrets
-aws ssm get-parameter --name ${FERNET_KEY_PATH}     --with-decryption --query Parameter.Value --output text > ./helm/secrets/fernet_key
-aws ssm get-parameter --name ${WEBSERVER_SECRET_KEY_PATH} --with-decryption --query Parameter.Value --output text > ./helm/secrets/webserver_key
+aws ssm get-parameter --name ${FERNET_KEY_PATH}     --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/fernet_key
+aws ssm get-parameter --name ${WEBSERVER_SECRET_KEY_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/webserver_key
 
 # Create Resources from Templates
 helm upgrade airflow-helper ./helperChart  \
