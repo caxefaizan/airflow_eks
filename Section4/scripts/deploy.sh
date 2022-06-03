@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export ENV=sandpit ACCOUNT_ID=526742771915 
 source ./scripts/eks-login.sh
 source ./scripts/config.sh
 
