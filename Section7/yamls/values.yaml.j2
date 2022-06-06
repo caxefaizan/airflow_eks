@@ -1,0 +1,66 @@
+logs:
+  persistence:
+    enabled: true
+    existingClaim: efs-claim
+
+ingress:
+  enabled: true
+  web:
+    annotations: {
+      alb.ingress.kubernetes.io/scheme: internet-facing,
+      alb.ingress.kubernetes.io/target-type: ip,
+      ## SSL Settings
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:526742771915:certificate/5c50eee6-4b60-43b9-9c74-cffb9bb8fd2a
+      # SSL Redirect Setting
+      alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    }
+    path: "/"
+    pathType: "Prefix"
+    ingressClassName: alb
+    hosts: 
+    - name: ""
+      tls:
+        enabled: true
+        secretName: httpssecret
+
+postgresql:
+  enabled: false
+
+data:
+  metadataSecretName: secret-metadatabase
+  resultBackendSecretName: secret-resultbackend
+
+statsd:
+  enabled: false
+
+triggerer:
+  enabled: false
+
+executor: LocalExecutor
+
+webserverSecretKeySecretName: secret-webserver-key
+fernetKeySecretName: secret-fernet-key
+
+dags:
+  persistence:
+    enabled: true
+  gitSync:
+    enabled: true
+    repo: {{ DAGS_REPO }}
+    branch: main
+    rev: HEAD
+    depth: 1
+    maxFailures: 0
+    subPath: ""
+    sshKeySecret: git-secret
+    knownHosts: |
+      {{ KNOWN_HOSTS | indent(width=6) }}
+    wait: 60
+    containerName: git-sync
+
+extraEnv: |
+  - name: AIRFLOW__CORE__LOAD_EXAMPLES
+    value: 'True'
+  - name: AIRFLOW__WEBSERVER__DEFAULT_UI_TIMEZONE
+    value: "Asia/Kolkata"
