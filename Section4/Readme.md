@@ -1,3 +1,4 @@
+# Section 4 - Creating AWS Resources (EKS, RDS, SSM)
 ## Setting up the Cluster in AWS-EKS
 Create the cluster using EKSCTL
 ```

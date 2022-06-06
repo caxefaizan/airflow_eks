@@ -1,4 +1,4 @@
-# Getting Started
+# Section 1 - Getting Started
 
 ## Cloning the Repository
 >This might be a good time for you to create a Github Account if you dont have one. I highly recommend to create it for the course and it will be super useful throughout your course as well.

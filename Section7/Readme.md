@@ -1,4 +1,4 @@
-# Enabling SSL
+# Section 7 -  Enabling SSL
 Copy the Ingress Address for creating the Certificate
 ## Create Certificate for the Webserver
 ```

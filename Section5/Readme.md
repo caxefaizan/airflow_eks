@@ -1,4 +1,5 @@
-# Enabling Ingress for the UI
+# Section 5 - Exposing the UI and Persisting Logs
+## Enabling Ingress for the UI
 Run the following commands to create an AWS ALB load balancer Controller
 ```
 # Create IAM Policy

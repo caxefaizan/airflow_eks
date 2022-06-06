@@ -1,4 +1,5 @@
-# Minimal Installation
+# Section 2 - Minimal Airflow Deployment (Minikube)
+## Create a local Cluster
 ```
 # Start a local CLuster
 minikube start

@@ -1,4 +1,4 @@
-# Airflow Build
+# Section 3 - Creating Helper Chart using HELM
 ## CleanUp
 Remove previous Minimal Airflow Deployment from the default namespace
 ```
