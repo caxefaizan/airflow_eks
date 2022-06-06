@@ -11,13 +11,13 @@ Dependencies:
 * docker
 
 Follow the Respective Sections
-* Section1 - Setup
-* Section2 - Minimal Airflow Deployment (Minikube)
-* Section3 - Helper Chart
-* Section4 - Creating AWS Resources
-* Section5 - Ingress and EFS
-* Section6 - Auto Scaling
-* Section7 - Enabling TLS
+* [Section1](./Section1/Readme.md) - Getting Started
+* [Section2](./Section2/Readme.md) - Minimal Airflow Deployment (Minikube)
+* [Section3](./Section3/Readme.md) - Creating Helper Chart using HELM
+* [Section4](./Section4/Readme.md) - Creating AWS Resources (EKS, RDS, SSM)
+* [Section5](./Section5/Readme.md) - Exposing the UI and Persisting Logs
+* [Section6](./Section6/Readme.md) - Cluster Auto Scaler
+* [Section7](./Section7/Readme.md) - Enabling TLS
 
 ## Uninstall Airflow
 helm uninstall airflow -n airflow
