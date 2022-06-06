@@ -1,9 +1,6 @@
 version: 0.2
 
 env:
-  # parameter-store:
-  #   AWS_SECRET_ACCESS_KEY: "/AK"
-  #   AWS_ACCESS_KEY_ID: "/AKI"
   variables:
     EKS_KUBECTL_ROLE_ARN: arn:aws:iam::526742771915:role/EksCodeBuildKubectlRole
     EKS_CLUSTER_NAME: airflow
@@ -13,8 +10,6 @@ phases:
   pre_build:
     commands:
       - echo Entered the pre_build phase...
-      #- export AWS_ACCESS_KEY_ID="$(aws ssm get-parameter --name "/AKI" --with-decryption --query Parameter.Value | tr -d \")"
-      #- export AWS_DEFAULT_REGION=us-east-1
       - pip3 install j2cli
       - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -s -- --version v3.8.2
   build:
@@ -30,7 +25,6 @@ phases:
       - echo "Update Kube Config"      
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
       - echo Build started on `date`
-      # - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - chmod 777 ./scripts/deploy.sh
       - ./scripts/deploy.sh
   post_build:

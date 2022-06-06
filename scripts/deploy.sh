@@ -12,6 +12,8 @@ export DAGS_REPO=$(aws ssm get-parameter --name ${DAGS_REPO_PATH} --with-decrypt
 # Flask Secrets
 aws ssm get-parameter --name ${FERNET_KEY_PATH}     --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/fernet_key
 aws ssm get-parameter --name ${WEBSERVER_SECRET_KEY_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/webserver_key
+aws ssm get-parameter --name ${WEBSERVER_SECRET_CACERT_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/cacert.pem
+aws ssm get-parameter --name ${WEBSERVER_SECRET_CACERT__KEY_PATH} --with-decryption --query Parameter.Value --output text > ./helperChart/secrets/private.pem
 
 echo "Updating Helper Chart Deployment"
 # Create Resources from Templates
