@@ -1,7 +1,7 @@
-logs:
-  persistence:
-    enabled: true
-    existingClaim: efs-claim
+#logs:
+#  persistence:
+#    enabled: true
+#    existingClaim: efs-claim
 
 ingress:
   enabled: true
@@ -14,12 +14,12 @@ ingress:
     pathType: "Prefix"
     ingressClassName: alb
 
-postgresql:
-  enabled: false
-
-data:
-  metadataSecretName: secret-metadatabase
-  resultBackendSecretName: secret-resultbackend
+#postgresql:
+#  enabled: false
+#
+#data:
+#  metadataSecretName: secret-metadatabase
+#  resultBackendSecretName: secret-resultbackend
 
 statsd:
   enabled: false
@@ -36,7 +36,7 @@ dags:
   persistence:
     enabled: true
   gitSync:
-    enabled: true
+#    enabled: true
     repo: {{ DAGS_REPO }}
     branch: main
     rev: HEAD
