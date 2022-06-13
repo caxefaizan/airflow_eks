@@ -40,7 +40,7 @@ kubectl get ingress -n airflow
 ```
 Copy the address and open it in a web browser.
 
-## EFS for RWX PVC
+## Using EFS for RWX PVC
 Create Policy for EFS
 ```
 curl -o ./yamls/iam-policy-efs.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.7/docs/iam-policy-example.json
@@ -126,7 +126,7 @@ logs:
     enabled: true
     existingClaim: efs-claim
 ```
->Note: To use the new PVC we will have to uninstall Airflow and reinstall it.
+> **Note: To use the new PVC we will have to uninstall Airflow and reinstall it.**
 ```
 helm uninstall airflow -n airflow
 cp Section5/yamls/values.yaml.j2 ./yamls/
