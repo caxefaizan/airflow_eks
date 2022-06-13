@@ -40,6 +40,9 @@
   - Click on **Skip Deploy Stage**
 - **Review**
   - Review and click on **Create Pipeline**
+> The pipeline will fail as our role does not have permission to assume `sts assume role`
+>
+>`An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:sts::526742771915:assumed-role/codebuild-airflow-codebuild-service-role/AWSCodeBuild-f417c41f-5b04-44d5-bc85-e6967df26bfb is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::526742771915:role/EksCodeBuildKubectlRole`
 ## Create STS Assume IAM Role for CodeBuild to interact with AWS EKS
 - In an AWS CodePipeline, we are going to use AWS CodeBuild to deploy changes to our Kubernetes manifests. 
 - This requires an AWS IAM role capable of interacting with the EKS cluster.
@@ -58,11 +61,34 @@ echo $TRUST
 aws iam create-role --role-name EksCodeBuildKubectlRole --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
 
 # Define Inline Policy with eks Describe permission in a file iam-eks-describe-policy
-echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": "eks:Describe*", "Resource": "*" } ] }' > /tmp/iam-eks-describe-policy
+echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": "eks:Describe*", "Resource": "*" },{"Effect": "Allow", "Action": "ssm:GetParameter", "Resource": "*" } ] }' > /tmp/iam-eks-describe-policy
 
 # Associate Inline Policy to our newly created IAM Role
 aws iam put-role-policy --role-name EksCodeBuildKubectlRole --policy-name eks-describe --policy-document file:///tmp/iam-eks-describe-policy
 ```
+
+## Update CodeBuild Role to have access to STS Assume Role we have created STS Assume Role Policy
+### Create STS Assume Role Policy
+- Go to Services IAM -> Policies -> Create Policy
+- In **Visual Editor Tab**
+- Service: STS
+- Actions: Under Write - Select `AssumeRole`
+- Resources: Specific
+  - Add ARN
+  - Specify ARN for Role: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole
+  - Click Add
+  - Click Next
+- Click on Review Policy  
+- Name: eks-codebuild-sts-assume-role
+- Description: CodeBuild to interact with EKS cluster to perform changes
+- Click on **Create Policy**
+
+### Associate Policy to CodeBuild Role
+IAM > Roles > `codebuild-airflow-codebuild-service-role`
+- Role Name: `codebuild-airflow-codebuild-service-role`
+- Policy to be associated:  `eks-codebuild-sts-assume-role`
+- Click on Add Permissions > Attach Policies
+- Search `eks-codebuild-sts-assume-role` > Select > Attach Policies
 
 ## Update EKS Cluster aws-auth ConfigMap with new role created in previous step
 - We are going to add the role to the `aws-auth ConfigMap` for the EKS cluster.
@@ -84,28 +110,6 @@ kubectl get -n kube-system configmap/aws-auth -o yaml | awk "/mapRoles: \|/{prin
 kubectl patch configmap/aws-auth -n kube-system --patch "$(cat /tmp/aws-auth-patch.yml)"
 ```
 
-## Update CodeBuild Role to have access to STS Assume Role we have created STS Assume Role Policy
-- Our Build will fail due to CodeBuild not having access to perform updates in EKS Cluster.
-- It cannot even assume the STS Assume role which we created. 
-- Create STS Assume Policy and Associate that to CodeBuild Role `codebuild-code-build-airflow-service-role`
-
-### Create STS Assume Role Policy
-- Go to Services IAM -> Policies -> Create Policy
-- In **Visual Editor Tab**
-- Service: STS
-- Actions: Under Write - Select `AssumeRole`
-- Resources: Specific
-  - Add ARN
-  - Specify ARN for Role: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole
-  - Click Add
-- Click on Review Policy  
-- Name: eks-codebuild-sts-assume-role
-- Description: CodeBuild to interact with EKS cluster to perform changes
-- Click on **Create Policy**
-
-### Associate Policy to CodeBuild Role
-- Role Name: codebuild-code-build-airflow-service-role
-- Policy to be associated:  `eks-codebuild-sts-assume-role`
 
 ## Create the buildspec 
 ```
