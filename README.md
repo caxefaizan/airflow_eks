@@ -1,7 +1,6 @@
-# udemy
-Best Practices to Deploy a Production Grade Airflow
+# Deploying a Production Grade Airflow 2.3.x 
 
-Dependencies:
+## Dependencies:
 * linux
 * kubectl
 * eksctl
@@ -10,27 +9,44 @@ Dependencies:
 * jinja2
 * docker
 
-Follow the Respective Sections
+## Sections
 * [Section1](./Section1/Readme.md) - Getting Started
 * [Section2](./Section2/Readme.md) - Minimal Airflow Deployment (Minikube)
 * [Section3](./Section3/Readme.md) - Creating Helper Chart using HELM
 * [Section4](./Section4/Readme.md) - Creating AWS Resources (EKS, RDS, SSM)
 * [Section5](./Section5/Readme.md) - Exposing the UI and Persisting Logs
 * [Section6](./Section6/Readme.md) - Cluster Auto Scaler
-* [Section7](./Section7/Readme.md) - Enabling TLS
+* [Section7](./Section7/Readme.md) - Enabling SSL
+* [Section8](./Section8/Readme.md) - CI/CD Pipeline
 
-## Uninstall Airflow
-helm uninstall airflow -n airflow
-## Delete RDS
-aws rds delete-db-instance --db-instance-identifier=airflow-db --skip-final-snapshot
-eksctl delete cluster --name airflow
-## Delete EFS
-## Delete EBS
+## Cleanup
+**Everytime you want to pause the course, do remember to clean up the resources to avoid being billed for when not in use.**
+
+Following items are a reminder to make sure you delete the resources.
 ## Delete EKS
-## Delete EC2
-## Delete SG
-## Delete VPC
-## Delete SSM
+    - `eksctl delete cluster --name airflow`
+## Delete RDS
+    - Databases
+## Delete EC2 resources
+    - Volumes 
+    - Load Balancers
+    - Instances
+    - Security Group
+## Delete EFS
+    - File Systems
+## Delete SystemsManager
+    - Parameter Store
+        - Parameters
 ## Delete ACM
-## Delete CloudFormation Stack
-## Roles, Policies, SecurityGroups, RDS, EFS, EBS, EKS, EC2, SSM, ACM
+    - Certificates
+## Delete EKS CloudFormation Stack
+    - Stacks
+## Delete CodePipeline
+    - Pipeline
+## Delete CodeBuild
+    - Build Project
+    - Connections
+## Delete IAM
+    - Roles
+    - Policies
+## Delete VPC
