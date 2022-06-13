@@ -1,4 +1,4 @@
-# Deploying a Production Grade Airflow 2.3.x 
+# Deploying a Production Grade Airflow 2.3.x on AWS-EKS
 
 ## Dependencies:
 * linux
@@ -8,6 +8,8 @@
 * helm
 * jinja2
 * docker
+* git
+* awscli
 
 ## Sections
 * [Section1](./Section1/Readme.md) - Getting Started
@@ -25,7 +27,7 @@
 Following items are a reminder to make sure you delete them.
 
 ## Delete EKS
-    - `eksctl delete cluster --name airflow`
+    - eksctl delete cluster --name airflow
 ## Delete RDS
     - Databases
 ## Delete EC2 resources

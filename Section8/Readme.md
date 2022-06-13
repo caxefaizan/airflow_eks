@@ -1,5 +1,4 @@
 # Section 8 -  Enabling SSL
-Copy the Ingress Address for creating the Certificate
 ## Create Certificate for the Webserver
 ```
 openssl genrsa -out ./helperChart/secrets/private.pem 2048
