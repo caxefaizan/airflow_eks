@@ -3,3 +3,4 @@ scripts
 yamls
 buildspec.yaml
 cluster.yaml
+venv

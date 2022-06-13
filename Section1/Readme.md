@@ -3,7 +3,7 @@
 ## Cloning the Repository
 >This might be a good time for you to create a Github Account if you dont have one. I highly recommend to create it for the course and it will be super useful throughout your course as well.
 
-Visit the course repo [here](https://github.com/caxefaizan/udemy) and on the top right corner click on the **`Fork`** button to clone the project in your github account.
+Visit the course repo [here](https://github.com/caxefaizan/airflow_eks) and on the top right corner click on the **`Fork`** button to clone the project in your github account.
 
 ## IDE
 We will be using VS Code for the development . However you can use any IDE of your choice.
@@ -49,8 +49,8 @@ sudo mv /tmp/eksctl /usr/local/bin
 Now that we have the repo forked into your git account, On the top right of your repo click on **`Code`** and under **`HTTPS`** copy the repo url. You can copy the scripts from the relevant sections.
 ```
 # Clone the repo to your workspace
-git clone https://github.com/YOUR_USERNAME/udemy.git
-cd udemy
+git clone https://github.com/YOUR_USERNAME/airflow_eks.git
+cd airflow_eks
 # Create a Virtual Env
 python3 -m venv venv
 source venv/bin/activate
