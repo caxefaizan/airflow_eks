@@ -1,4 +1,29 @@
 # Section 4 - Creating AWS Resources (EKS, RDS, SSM)
+## Setting up AWS CLI
+- To create access keys for an IAM user
+- Sign in to the AWS Management Console and open the IAM console.
+- In the navigation pane, choose Users.
+- Choose the name of the user whose access keys you want to create, and then choose the Security credentials tab.
+- In the Access keys section, choose Create access key.
+> To view the new access key pair, choose Show. You will not have access to the secret access key again after this dialog box closes. Your credentials will look something like this:
+> 
+> ```
+> Access key ID: AKIAIOSFODNN7EXAMPLE`
+>Secret access key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+> ```
+
+To download the key pair, choose Download .csv file. Store the keys in a secure location.
+- Open the terminal
+- `aws configure` (When you enter this command, the AWS CLI prompts you for four pieces of information:
+Access key ID Secret access key AWS Region Output format))
+```
+$ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: us-east-1
+Default output format [None]: json
+```
+You're all set to use aws cli.
 ## Setting up the Cluster in AWS-EKS
 Create the cluster using EKSCTL
 ```
