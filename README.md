@@ -20,9 +20,10 @@
 * [Section8](./Section8/Readme.md) - CI/CD Pipeline
 
 ## Cleanup
-**Everytime you want to pause the course, do remember to clean up the resources to avoid being billed for when not in use.**
+**Do remember to clean up the resources to avoid being billed for when not in use.**
 
-Following items are a reminder to make sure you delete the resources.
+Following items are a reminder to make sure you delete them.
+
 ## Delete EKS
     - `eksctl delete cluster --name airflow`
 ## Delete RDS
