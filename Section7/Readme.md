@@ -1,4 +1,4 @@
-# Section 7 - CodePipeline
+# Section 7 - CI/CD Pipeline
 
 ## Create CodePipeline
 - Create CodePipeline
