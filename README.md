@@ -16,8 +16,8 @@
 * [Section4](./Section4/Readme.md) - Creating AWS Resources (EKS, RDS, SSM)
 * [Section5](./Section5/Readme.md) - Exposing the UI and Persisting Logs
 * [Section6](./Section6/Readme.md) - Cluster Auto Scaler
-* [Section7](./Section7/Readme.md) - Enabling SSL
-* [Section8](./Section8/Readme.md) - CI/CD Pipeline
+* [Section7](./Section7/Readme.md) - CI/CD Pipeline
+* [Section8](./Section8/Readme.md) - Enabling SSL
 
 ## Cleanup
 **Do remember to clean up the resources to avoid being billed for when not in use.**
