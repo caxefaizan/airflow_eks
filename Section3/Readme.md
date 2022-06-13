@@ -42,3 +42,5 @@ helm upgrade --install $RELEASE_NAME apache-airflow/airflow -n $NAMESPACE --crea
 
 rm ./yamls/values.yaml
 ```
+
+Run `./scripts/deploy.sh`

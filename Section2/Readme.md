@@ -60,7 +60,7 @@ ssh-keyscan -t rsa github.com > ./helperChart/secrets/known_hosts
 Now lets create the scipt to make use of our Helper Chart
 ```
 cp Section2/scripts ./ -r
-chmod 777 ./scripts/deploy.sh 
+chmod +x ./scripts/deploy.sh 
 ./scripts/deploy.sh
 ```
 > Verify the resources created by `kubectl get secrets -n airflow`

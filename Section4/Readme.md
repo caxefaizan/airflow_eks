@@ -31,7 +31,7 @@ cp Section4/cluster.yaml ./
 eksctl create cluster -f cluster.yaml
 eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster airflow --approve
 ```
-> If you wish to deploy a cluster auto scaler for your cluster. Follow [Section6](./Section6.Readme.md) and then come back here.
+> **If you wish to deploy a cluster auto scaler (you should) for your cluster. Follow [Section6](./Section6.Readme.md) and then come back here**.
 ## Creating Postgres Database
 Create RDS using Console
 * Same VPC
