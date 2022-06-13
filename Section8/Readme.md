@@ -146,4 +146,25 @@ phases:
     commands:
       - echo Build completed on `date`
 ```
+or 
+Make sure you have all the Airflow config (as given below) done until now in your repo attached to code pipeline.
+```
+- root/
+  - helperChart/
+    - templates/
+      - efs.yaml
+      - namespace.yaml
+      - secrets.yaml
+    - Chart.yaml
+    - values.yaml
+  - scripts/
+    - config.sh
+    - create_conn_uri.py
+    - deploy.sh
+    - eks-login.sh
+  - yamls/
+    - values.yaml.j2
+  - buildspec.yaml
+  - cluster.yaml
+```
 Commit to the repository and thats it.
