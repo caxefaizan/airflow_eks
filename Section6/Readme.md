@@ -21,7 +21,7 @@ aws iam create-policy --policy-name AmazonEKSClusterAutoscalerPolicy --policy-do
 ```
 Copy the ARN of policy to create service account
 ```
-eksctl create iamserviceaccount --cluster=airflow --namespace=kube-system --name=cluster-autoscaler --attach-policy-arn=arn:aws:iam::526742771915:policy/AmazonEKSClusterAutoscalerPolicy --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --cluster=airflow --namespace=kube-system --name=cluster-autoscaler --attach-policy-arn=arn:aws:iam::YOUR_ACCOUNT_ID:policy/AmazonEKSClusterAutoscalerPolicy --override-existing-serviceaccounts --approve
 ```
 ## Deploy AutoScaler
 ```
