@@ -42,7 +42,7 @@
   - Review and click on **Create Pipeline**
 > The pipeline will fail as our role does not have permission to assume `sts assume role`
 >
->`An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:sts::526742771915:assumed-role/codebuild-airflow-codebuild-service-role/AWSCodeBuild-f417c41f-5b04-44d5-bc85-e6967df26bfb is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::526742771915:role/EksCodeBuildKubectlRole`
+>`An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:sts::YOUR_ACCOUNT_ID:assumed-role/codebuild-airflow-codebuild-service-role/AWSCodeBuild-f417c41f-5b04-44d5-bc85-e6967df26bfb is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole`
 ## Create STS Assume IAM Role for CodeBuild to interact with AWS EKS
 - In an AWS CodePipeline, we are going to use AWS CodeBuild to deploy changes to our Kubernetes manifests. 
 - This requires an AWS IAM role capable of interacting with the EKS cluster.
