@@ -117,7 +117,7 @@ version: 0.2
 
 env:
   variables:
-    EKS_KUBECTL_ROLE_ARN: arn:aws:iam::526742771915:role/EksCodeBuildKubectlRole
+    EKS_KUBECTL_ROLE_ARN: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole
     EKS_CLUSTER_NAME: airflow
     AWS_DEFAULT_REGION: us-east-1
 
