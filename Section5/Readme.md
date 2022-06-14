@@ -9,7 +9,7 @@ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-
 Copy the Arn of the policy created above, as we have to use it in command below.
 ```
 # Attach Policy
-eksctl create iamserviceaccount --cluster=airflow --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::526742771915:policy/AWSLoadBalancerControllerIAMPolicy --approve
+eksctl create iamserviceaccount --cluster=airflow --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::YOUR_ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy --approve
 helm repo add eks https://aws.github.io/eks-charts
 helm repo update
 kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
@@ -48,7 +48,7 @@ aws iam create-policy --policy-name AmazonEKS_EFS_CSI_Driver_Policy --policy-doc
 ```
 Attach Policy to Cluster
 ```
-eksctl create iamserviceaccount --cluster airflow --namespace kube-system --name efs-csi-controller-sa --attach-policy-arn arn:aws:iam::526742771915:policy/AmazonEKS_EFS_CSI_Driver_Policy --approve --region us-east-1
+eksctl create iamserviceaccount --cluster airflow --namespace kube-system --name efs-csi-controller-sa --attach-policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/AmazonEKS_EFS_CSI_Driver_Policy --approve --region us-east-1
 ```
 ## Deploy EFS Driver
 ```
