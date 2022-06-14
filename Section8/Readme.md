@@ -42,7 +42,7 @@ ingress:
       alb.ingress.kubernetes.io/target-type: ip,
       ## SSL Settings
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
-      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:526742771915:certificate/5c50eee6-4b60-43b9-9c74-cffb9bb8fd2a
+      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:YOUR_ACCOUNT_ID:certificate/5c50eee6-4b60-43b9-9c74-cffb9bb8fd2a
       # SSL Redirect Setting
       alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
     }
