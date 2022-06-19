@@ -61,7 +61,7 @@ echo $TRUST
 aws iam create-role --role-name EksCodeBuildKubectlRole --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
 
 # Define Inline Policy with eks Describe permission in a file iam-eks-describe-policy
-echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": "eks:Describe*", "Resource": "*" },{"Effect": "Allow", "Action": "ssm:GetParameter", "Resource": "*" } ] }' > /tmp/iam-eks-describe-policy
+echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": "eks:Describe*", "Resource": "*" },{"Effect": "Allow", "Action": "ssm:GetParameter", "Resource": "*" },{ "Effect": "Allow", "Action": "rds:DescribeDBInstances", "Resource": "*" } ] }' > /tmp/iam-eks-describe-policy
 
 # Associate Inline Policy to our newly created IAM Role
 aws iam put-role-policy --role-name EksCodeBuildKubectlRole --policy-name eks-describe --policy-document file:///tmp/iam-eks-describe-policy
