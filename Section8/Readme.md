@@ -2,6 +2,7 @@
 ## Create Certificate for the Webserver
 ```
 openssl genrsa -out ./helperChart/secrets/private.pem 2048
+# If you own a domain name registered use that while creating the certificate
 openssl req -new -x509 -key ./helperChart/secrets/private.pem -out ./helperChart/secrets/cacert.pem -days 1095
 ```
 ## Create Kubernetes Secret using Helper Chart as below 
@@ -32,7 +33,7 @@ aws acm import-certificate --certificate fileb://helperChart/secrets/cacert.pem 
 ```
 Copy the ARN for use in `values.yaml.j2`
 ## Enable TLS in the Airflow Build
-Add the following lines in `values.yaml.j2`
+Add the following lines in `values.yaml.j2` as annotations for the loadbalancer.
 ```
 ingress:
   enabled: true
