@@ -64,7 +64,7 @@ Some Parameters to be Stored
 
 Execute these commands to upload the params to the systems manager
 ```
-aws ssm put-parameter --name "/global/airflow/webserver/flask-secret-key" --value $(cat ./helperChart/secrets/webserver_key) --type "SecureString"
+aws ssm put-parameter --name "/global/airflow/webserver/flask-secret-key" --value "$(cat ./helperChart/secrets/webserver_key)" --type "SecureString"
 aws ssm put-parameter --name "/global/airflow/fernet-key" --value "$(cat ./helperChart/secrets/fernet_key)" --type "SecureString"
 aws ssm put-parameter --name "/global/airflow/github/known-hosts" --value "$(cat ./helperChart/secrets/known_hosts)" --type "SecureString"
 aws ssm put-parameter --name "/global/airflow/github/private-key" --value "$(cat ~/.ssh/id_rsa)" --type "SecureString"
