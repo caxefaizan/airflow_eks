@@ -40,6 +40,43 @@
   - Click on **Skip Deploy Stage**
 - **Review**
   - Review and click on **Create Pipeline**
+
+## Create the buildspec 
+```
+version: 0.2
+
+env:
+  variables:
+    EKS_KUBECTL_ROLE_ARN: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole
+    EKS_CLUSTER_NAME: airflow
+    AWS_DEFAULT_REGION: us-east-1
+
+phases:
+  pre_build:
+    commands:
+      - echo Entered the pre_build phase...
+      - pip3 install j2cli
+      - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -s -- --version v3.8.2
+  build:
+    commands:
+      # Extracting AWS Credential Information using STS Assume Role for kubectl
+      - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
+      - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      # Setup kubectl with our EKS Cluster              
+      - echo "Update Kube Config"      
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - echo Build started on `date`
+      - chmod 777 ./scripts/deploy.sh
+      - ./scripts/deploy.sh
+  post_build:
+    commands:
+      - echo Build completed on `date`
+```
+
 > The pipeline will fail as our role does not have permission to assume `sts assume role`
 >
 >`An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:sts::YOUR_ACCOUNT_ID:assumed-role/codebuild-airflow-codebuild-service-role/AWSCodeBuild-f417c41f-5b04-44d5-bc85-e6967df26bfb is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole`
@@ -110,44 +147,8 @@ kubectl get -n kube-system configmap/aws-auth -o yaml | awk "/mapRoles: \|/{prin
 kubectl patch configmap/aws-auth -n kube-system --patch "$(cat /tmp/aws-auth-patch.yml)"
 ```
 
-
-## Create the buildspec 
-```
-version: 0.2
-
-env:
-  variables:
-    EKS_KUBECTL_ROLE_ARN: arn:aws:iam::YOUR_ACCOUNT_ID:role/EksCodeBuildKubectlRole
-    EKS_CLUSTER_NAME: airflow
-    AWS_DEFAULT_REGION: us-east-1
-
-phases:
-  pre_build:
-    commands:
-      - echo Entered the pre_build phase...
-      - pip3 install j2cli
-      - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -s -- --version v3.8.2
-  build:
-    commands:
-      # Extracting AWS Credential Information using STS Assume Role for kubectl
-      - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
-      - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
-      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
-      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
-      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
-      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
-      # Setup kubectl with our EKS Cluster              
-      - echo "Update Kube Config"      
-      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
-      - echo Build started on `date`
-      - chmod 777 ./scripts/deploy.sh
-      - ./scripts/deploy.sh
-  post_build:
-    commands:
-      - echo Build completed on `date`
-```
-or 
-Make sure you have all the Airflow config (as given below) done until now in your repo attached to code pipeline.
+> Make sure you have all the Airflow config (as given below) done until now in your repo attached to code pipeline.
+> 
 ```
 - root/
   - helperChart/
