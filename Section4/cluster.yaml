@@ -12,6 +12,7 @@ managedNodeGroups:
     privateNetworking: true
     minSize: 1
     maxSize: 3
+    availabilityZones: ["us-east-1a","us-east-1b"]
     desiredCapacity: 1
     volumeSize: 20
     labels: { role: worker }
