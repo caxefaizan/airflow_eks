@@ -1,0 +1,29 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: airflow
+  region: us-east-1
+  version: "1.21"
+
+managedNodeGroups:
+  - name: workers
+    instanceType: t3.medium
+    privateNetworking: true
+    minSize: 1
+    maxSize: 3
+    availabilityZones: ["us-east-1a","us-east-1b"]
+    desiredCapacity: 1
+    volumeSize: 20
+    labels: { role: worker }
+    tags:
+      nodegroup-role: worker
+    iam:
+      withAddonPolicies:
+        ebs: true
+        imageBuilder: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        externalDNS: true
