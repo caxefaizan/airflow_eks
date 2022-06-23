@@ -39,7 +39,7 @@ kubectl version --client
 ```
 ```
 # Helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash  -s -- --version v3.8.2
 ```
 ```
 # eksctl
