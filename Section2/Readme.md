@@ -40,7 +40,7 @@ cp Section2/helperChart/ ./ -r
 ## Create Airflow Secrets
 ```
 # SetUp Git Access Keys
-ssh-keygen -t rsa -b 2048
+ssh-keygen -t rsa -b 2048 -C "your_github_userid"
 cp ~/.ssh/id_rsa ./helperChart/secrets/id_rsa
 
 # Add the following Public Key to your Github Account under Settings > SSH and GPG Keys > New SSH Key
