@@ -24,6 +24,11 @@ Create a Project Directory in the VS Code Workspace.
 Open up a new terminal and follow the commands below.
 ## Setup Tools
 Before getting started we need to install few tools to work with.
+```
+sudo apt update
+sudo apt install python3.8-venv
+sudo apt install python3-pip
+```
 
 > We will first deploy Airflow on Minikube to understand the process and once we're comfortable with the workflow, then we shall proceed on EKS. This will help us reduce costs on AWS as some features of this course is not Free Tier eligible.
 ```
