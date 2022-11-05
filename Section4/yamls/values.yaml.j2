@@ -1,3 +1,14 @@
+scheduler:
+  extraVolumes: 
+  - name: git-sync-ssh-key
+    secret: 
+      secretName: git-sync-ssh-key
+ 
+  extraVolumeMounts: 
+  - name: git-sync-ssh-key
+    mountPath: "/etc/git-secret/ssh"
+    readOnly: true
+
 postgresql:
   enabled: false
 
