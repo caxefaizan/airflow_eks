@@ -43,7 +43,7 @@ dags:
     depth: 1
     maxFailures: 0
     subPath: ""
-    sshKeySecret: git-secret
+    sshKeySecret: git-sync-ssh-key
     knownHosts: |
       {{ KNOWN_HOSTS | indent(width=6) }}
     wait: 60
