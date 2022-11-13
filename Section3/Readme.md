@@ -8,7 +8,7 @@ kubectl delete pvc --all
 ## DAGS Repo
 Create a separate DAGS repo on Github where we will store all our DAGS in the root folder.
 
-Now on the top right copy the SSH url under Code > SSH and define the path in the config script as. 
+Now on the top right copy the *SSH* url under Code > SSH and define the path in the config script as. 
 ```
 # ./scripts/config.sh
 export DAGS_REPO="git@github.com:YOUR_USERNAME/YOUR_DAGS_REPO.git"
