@@ -67,7 +67,7 @@ Execute these commands to upload the params to the systems manager
 aws ssm put-parameter --name "/global/airflow/webserver/flask-secret-key" --value "$(cat ./helperChart/secrets/webserver_key)" --type "SecureString"
 aws ssm put-parameter --name "/global/airflow/fernet-key" --value "$(cat ./helperChart/secrets/fernet_key)" --type "SecureString"
 aws ssm put-parameter --name "/global/airflow/github/known-hosts" --value "$(cat ./helperChart/secrets/known_hosts)" --type "SecureString"
-aws ssm put-parameter --name "/global/airflow/github/private-key" --value "$(cat ~/.ssh/id_rsa)" --type "SecureString"
+aws ssm put-parameter --name "/global/airflow/github/private-key" --value "$(cat ./helperChart/secrets/id_rsa)" --type "SecureString"
 aws ssm put-parameter --name "/global/airflow/github/dags-repo" --value "YOUR_DAGS_REPO" --type "SecureString"
 aws ssm put-parameter --name "/dev/airflow/rds/identifier" --value "YOUR_RDS_IDENTIFIER" --type "SecureString"
 aws ssm put-parameter --name "/dev/airflow/rds/password" --value "YOUR_RDS_PASSWORD" --type "SecureString"
