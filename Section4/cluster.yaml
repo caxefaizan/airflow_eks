@@ -4,7 +4,7 @@ kind: ClusterConfig
 metadata:
   name: airflow
   region: us-east-1
-  version: "1.21"
+  version: "1.23" # check the latest supported version here https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
 
 managedNodeGroups:
   - name: workers
@@ -12,7 +12,7 @@ managedNodeGroups:
     privateNetworking: true
     minSize: 1
     maxSize: 3
-    availabilityZones: ["us-east-1a","us-east-1b"]
+    # availabilityZones: ["us-east-1a","us-east-1b"] 
     desiredCapacity: 1
     volumeSize: 20
     labels: { role: worker }
